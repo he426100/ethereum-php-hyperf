@@ -3,6 +3,7 @@
 namespace Ethereum\Tests;
 
 use Ethereum\ERC20;
+use Ethereum\InfuraApi;
 use Ethereum\EtherscanApi;
 
 class ERC20Test extends TestCase
@@ -17,13 +18,14 @@ class ERC20Test extends TestCase
 
     private function getERC20($contractAddress = self::CONTRACT_ADDRESS)
     {
-        $erc20 = new ERC20($contractAddress, 8, new EtherscanApi(self::ETHERSCAN_KEY, 'rinkeby'));
+        $erc20 = new ERC20($contractAddress, 8, new InfuraApi(self::INFURA_KEY, 'rinkeby'));
         return $erc20;
     }
 
     public function testBalanceApi()
     {
-        $res = $this->getERC20()->balanceByApi(self::WALLET_ADDRESS);
+        $erc20 = new ERC20(self::CONTRACT_ADDRESS, 8, new EtherscanApi(self::ETHERSCAN_KEY, 'rinkeby'));
+        $res = $erc20->balanceByApi(self::WALLET_ADDRESS);
         var_dump($res);
 
         $this->assertTrue(true);
