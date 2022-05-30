@@ -37,13 +37,13 @@ class Wallet
     public static function newAccountByMnemonic(string $passphrase = '', string $path = self::DEFAULT_PATH): array
     {
         $mnemonic = BIP39::Generate(12);
-        $seed = $mnemonic->generateSeed($passphrase);
+        $seed = bin2hex($mnemonic->generateSeed($passphrase));
         $HDKey = BIP44::fromMasterSeed($seed)->derive($path);
 
         $privateKey = $HDKey->privateKey;
         $address = PEMHelper::privateKeyToAddress($privateKey);
         return [
-            "mnemonic" => implode($mnemonic->words, ' '),
+            "mnemonic" => implode(' ', $mnemonic->words),
             "key" => $privateKey,
             "address" => $address
         ];
@@ -60,7 +60,7 @@ class Wallet
      */
     public static function revertAccountByMnemonic(string $mnemonic, string $passphrase = '', string $path = self::DEFAULT_PATH): array
     {
-        $seed = BIP39::Words($mnemonic)->generateSeed($passphrase);
+        $seed = bin2hex(BIP39::Words($mnemonic)->generateSeed($passphrase));
         $HDKey = BIP44::fromMasterSeed($seed)->derive($path);
 
         $privateKey = $HDKey->privateKey;

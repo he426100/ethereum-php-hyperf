@@ -25,8 +25,8 @@ class WalletTest extends TestCase
     public function testBIP44()
     {
         $mnemonic = BIP39::Words("glue country blast dash license flat weasel whip organ fun piano crazy");
-        $seed = $mnemonic->generateSeed();
-
+        $seed = bin2hex($mnemonic->generateSeed());
+        
         $HDKey = BIP44::fromMasterSeed($seed)->derive("m/44'/60'/0'/0/0");
 
         $privateKey = $HDKey->privateKey;
