@@ -142,7 +142,7 @@ class PEMHelper
      */
     public static function hashPersonalMessage(string $message)
     {
-        $prefix = sprintf("\x19Ethereum Signed Message:\n%d", mb_strlen($message));
+        $prefix = sprintf("\x19Ethereum Signed Message:\n%d", strlen($message));
         return self::sha3($prefix . $message);
     }
 
